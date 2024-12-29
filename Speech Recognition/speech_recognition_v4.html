@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carry On Techie - Speech Recognition</title>
+    <link rel="stylesheet" href="speech_recognition_v4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">
+                <i class="fas fa-microchip logo-icon"></i>
+                <span class="logo-text">Carry On Techie</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active" id="speechLink">Speech Recognition</a>
+                <a href="#" id="aboutLink">About</a>
+                <a href="#" id="contactLink">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div id="speechSection">
+            <div class="browser-warning" id="browserWarning" style="display: none;">
+                <p><i class="fas fa-exclamation-triangle"></i> This app works best in Chrome. Some features may not work in your current browser.</p>
+            </div>
+            <div class="container">
+                <h1>Speech Recognition</h1>
+                <div class="top-controls">
+                    <div class="language-selector">
+                        <select id="languageSelect" class="language-select">
+                            <option value="en-US">English (US)</option>
+                            <option value="es-ES">Español</option>
+                            <option value="fr-FR">Français</option>
+                            <option value="de-DE">Deutsch</option>
+                            <option value="it-IT">Italiano</option>
+                            <option value="pt-BR">Português</option>
+                            <option value="ru-RU">Русский</option>
+                            <option value="ja-JP">日本語</option>
+                            <option value="ko-KR">한국어</option>
+                            <option value="zh-CN">中文 (简体)</option>
+                            <option value="hi-IN">हिंदी</option>
+                            <option value="ur-PK">اردو</option>
+                            <option value="ar-SA">العربية</option>
+                        </select>
+                        <button id="testBtn" class="test-btn" title="Test Speech">
+                            <i class="fas fa-vial"></i> Test Mode
+                        </button>
+                        <button id="darkModeBtn" class="theme-btn" title="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="speech-container">
+                    <div class="visualizer-container">
+                        <canvas id="visualizer"></canvas>
+                    </div>
+
+                    <div class="text-display" id="textDisplay">
+                        <p>Click the microphone to start speaking...</p>
+                    </div>
+
+                    <div class="word-count" id="wordCount">Words: 0</div>
+
+                    <div class="controls-section">
+                        <div class="main-controls">
+                            <button id="startBtn" class="control-btn" title="Start Recording">
+                                <i class="fas fa-microphone"></i> Start
+                            </button>
+                            <button id="stopBtn" class="control-btn" disabled title="Stop Recording">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
+                            <button id="copyBtn" class="control-btn" title="Copy Text">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                            <button id="clearBtn" class="control-btn" title="Clear Text">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                        </div>
+
+                        <div class="download-controls">
+                            <button id="pdfBtn" class="download-btn" title="Download as PDF">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                            <button id="docBtn" class="download-btn" title="Download as DOC">
+                                <i class="fas fa-file-word"></i> DOC
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="status" id="status">Status: Ready</div>
+                    <div class="recording-status" id="recordingStatus">
+                        <span class="recording-dot"></span>
+                        <span class="recording-text">Not Recording</span>
+                    </div>
+
+                    <div class="grammar-feedback" id="grammarFeedback"></div>
+                </div>
+
+                <div class="test-mode-panel" id="testModePanel" style="display: none;">
+                    <div class="test-mode-header">
+                        <h3>Test Mode</h3>
+                        <button id="closeTestBtn" class="close-btn" title="Close Test Mode">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <p>Read the following text:</p>
+                    <div class="test-text" id="testText"></div>
+                    <div class="test-results">
+                        <div class="accuracy-meter">
+                            <div class="accuracy-label">Accuracy:</div>
+                            <div class="accuracy-bar">
+                                <div class="accuracy-fill" id="accuracyFill"></div>
+                            </div>
+                            <div class="accuracy-value" id="accuracyValue">0%</div>
+                        </div>
+                        <div class="pronunciation-feedback" id="pronunciationFeedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="aboutSection" style="display: none;" class="section-content">
+            <div class="container">
+                <h1>About Us</h1>
+                <div class="about-content">
+                    <h2>Welcome to Carry On Techie</h2>
+                    <p>We are passionate about making technology accessible to everyone. Our speech recognition tool helps you convert speech to text with advanced features like:</p>
+                    <ul>
+                        <li>Multi-language support</li>
+                        <li>Grammar checking</li>
+                        <li>Audio visualization</li>
+                        <li>Test mode for practice</li>
+                        <li>Export to PDF and DOC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="contactSection" style="display: none;" class="section-content">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <div class="contact-content">
+                    <h2>Get in Touch</h2>
+                    <p>Have questions or suggestions? We'd love to hear from you!</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> Email: contact@carryontechie.com</p>
+                        <p><i class="fas fa-phone"></i> Phone: +1 (555) 123-4567</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Location: Silicon Valley, CA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Error</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingIndicator" class="loading-indicator">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="speech_recognition_v4.js"></script>
+</body>
+</html>
